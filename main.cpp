@@ -1,5 +1,6 @@
 
 #include "Grammar.h"
+#include <fstream>
 
 int main() {
 //    auto Z = new NonTerminal("Z");
@@ -82,18 +83,23 @@ int main() {
 //    };
     auto grammar1 = new Grammar(rule1, S, true);
     
-    //grammar1->getFirsts();
     grammar1->printFirst();
     std::cout << "------------------------------------" << std::endl;
-    //grammar1->getNexts();
     grammar1->printNext();
     std::cout << "------------------------------------" << std::endl;
     grammar1->printLL1();
     std::cout << "------------------------------------" << std::endl;
-    cout << grammar1->isAccepted("{int x ; float *y ; }");
 
+    std::ifstream input( "input.txt" );
 
+    for( std::string line; getline( input, line ); )
+    {
+        cout << "ANALYZING -> " << line << endl;
+        bool result = grammar1->isAccepted(line);
+        cout <<"CODE is " << ((result) ? "ACCEPTED": "REJECTED") << endl;
+        std::cout << "------------------------------------" << std::endl;
 
+    }
 
     return 0;
 }
