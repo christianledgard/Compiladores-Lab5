@@ -7,6 +7,7 @@
 #define EPSILON "ϵ"
 #define DOLLAR "$"
 
+
 #include <iostream>
 #include <string>
 #include <set>
@@ -50,6 +51,7 @@ public:
     set<string> getNext() override{
         return set<string>{};
     }
+    
     bool isTerminal() override{
         return true;
     }

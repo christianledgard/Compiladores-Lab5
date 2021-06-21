@@ -11,11 +11,11 @@ int main() {
 //    auto ep = new Terminal(EPSILON);
 //
 //    map<NonTerminal*, vector<vector<Element*>>> rule1{
-//                                                                    {Z, {{X,Y,Z},{d}}},
-//                                                                    {Y, {{c},{ep}}},
-//                                                                    {X, {{Y},{a}}}
-//                                                                }; 
-
+//                                                        {Z, {{X,Y,Z},{d}}},
+//                                                        {Y, {{c},{ep}}},
+//                                                        {X, {{Y},{a}}}
+//                                                    }; 
+//
 
 //    auto SP = new NonTerminal("SP");
 //    auto S = new NonTerminal("S");
@@ -30,14 +30,14 @@ int main() {
 //    auto ep = new Terminal(EPSILON);
 //
 //    map<NonTerminal*, vector<vector<Element*>>> rule1{
-//                                                                    {SP, {{S}}},
-//                                                                    {S, {{A,w,S},{x,S}}},
-//                                                                    {A, {{B,C},{y}}},
-//                                                                    {B, {{z,B},{z}}},
-//                                                                    {C, {{ep},{y},{D}}},
-//                                                                    {D, {{ep},{z,D}}}
+//                                                        {SP, {{S}}},
+//                                                        {S, {{A,w,S},{x,S}}},
+//                                                        {A, {{B,C},{y}}},
+//                                                        {B, {{z,B},{z}}},
+//                                                        {C, {{ep},{y},{D}}},
+//                                                        {D, {{ep},{z,D}}}
 //
-//                                                            }; 
+//                                                    }; 
 
 
     auto S = new NonTerminal("S");
@@ -46,8 +46,8 @@ int main() {
     auto TP = new NonTerminal("TP");
     auto F = new NonTerminal("F");
     auto ID = new Terminal("ID");
-    auto LB = new Terminal("LB");
-    auto RB = new Terminal("RB");
+    auto LB = new Terminal("{");
+    auto RB = new Terminal("}");
     auto PC = new Terminal(";");
     auto w = new Terminal("*");
     auto ep = new Terminal(EPSILON);
@@ -60,40 +60,40 @@ int main() {
                                                         {T, {{ID},{TP}}},
                                                         {TP, {{w,TP},{ep}}}
                                                      }; 
-    auto grammar1 = new Grammar(rule1, S);
+//
+//    auto E = new NonTerminal("E");
+//    auto T = new NonTerminal("T");
+//    auto EP = new NonTerminal("E'");
+//    auto TP = new NonTerminal("T'");
+//    auto F = new NonTerminal("F");
+//    auto mas = new Terminal("+");
+//    auto ast = new Terminal("*");
+//    auto LB = new Terminal("(");
+//    auto RB = new Terminal(")");
+//    auto id = new Terminal("id");
+//    auto ep = new Terminal(EPSILON);
+//
+//    map<NonTerminal*, vector<vector<Element*>>> rule1{
+//                                                        {E, {{T,EP}}},
+//                                                        {EP, {{mas,T,EP},{ep}}},
+//                                                        {T, {{F,TP}}},
+//                                                        {TP, {{ast,F,TP},{ep}}},
+//                                                        {F, {{LB,E,RB},{id}}}
+//    };
+    auto grammar1 = new Grammar(rule1, S, true);
     
     //grammar1->getFirsts();
     grammar1->printFirst();
     std::cout << "------------------------------------" << std::endl;
     //grammar1->getNexts();
     grammar1->printNext();
-    
-    
-    
+    std::cout << "------------------------------------" << std::endl;
+    grammar1->printLL1();
+    std::cout << "------------------------------------" << std::endl;
+    cout << grammar1->isAccepted("{int x ; float *y ; }");
+
+
+
+
     return 0;
 }
-
-/* 
- *          Elemento:
- * 
- *          Terminal
- *          NoTerminal
- *              vector<Terminal> primeros
- * 
- * 
- *          map<NoTerminal, vector<vector<Elemento>>
- *          
- *           {
- *              A : [[a,B,z], e],
- *              B : [[b], [A,c]]
- *           }
- * 
- * 
- *          
- *          for noTerminal in gramatica:
- *              for regla in noTerminal:
- *                 if regla[0] is terminal
- *                   noTerminal.primeros.pushback(regla[0]),
- *                   else noTerminal.primeros.insert(regla[0].primero)
- * 
- * */
