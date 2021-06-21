@@ -4,10 +4,14 @@
 
 #ifndef LAB5_ELEMENT_H
 #define LAB5_ELEMENT_H
-#define EPSILON "epsilon"
+#define EPSILON "ϵ"
+#define DOLLAR "$"
+
+#include <iostream>
 #include <string>
 #include <set>
 #include <utility>
+
 using namespace std;
 
 class Element{
@@ -17,6 +21,13 @@ public:
     
     virtual set<string> getFirstSet() = 0;
     virtual bool isEpsilonInFirst() = 0;
+    virtual bool addToNext(set<string> newNext) = 0;
+    virtual set<string> getNext() = 0;
+    virtual bool isTerminal() = 0;
+    
+    const string &getKey() const {
+        return key;
+    }
 };
 
 class Terminal: public Element{
@@ -30,6 +41,17 @@ public:
 
     bool isEpsilonInFirst() override {
         return Terminal::key == EPSILON;
+    }
+    
+    bool addToNext(set<string> newNext) override{
+        return false;
+    }
+
+    set<string> getNext() override{
+        return set<string>{};
+    }
+    bool isTerminal() override{
+        return true;
     }
 };
 
@@ -52,7 +74,7 @@ public:
         return first;
     }
 
-    const set<string> &getNext() const {
+    set<string> getNext() override {
         return next;
     }
 
@@ -63,11 +85,22 @@ public:
         }
         return NonTerminal::first.size() != size;
     }
+
+    bool addToNext(set<string> newNext) override{
+        auto size = NonTerminal::next.size();
+        for(const auto &element : newNext){
+            NonTerminal::next.insert(element);
+        }
+        return NonTerminal::next.size() != size;
+    }
     
     bool isEpsilonInFirst() override{
         return NonTerminal::first.find(EPSILON) != NonTerminal::first.end();
     }
 
+    bool isTerminal() override{
+        return false;
+    }
 
 };
 
